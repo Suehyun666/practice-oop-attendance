@@ -10,6 +10,13 @@ public class ResultView {
         System.out.println("\n" + attendance);
     }
 
+    public void printUpdateResult(Attendance oldAttendance, Attendance newAttendance) {
+        System.out.printf("\n%s -> %s (%s) 수정 완료!\n",
+                oldAttendance,
+                newAttendance.getTime().format(),
+                newAttendance.getStatus().getDescription());
+    }
+
     public void printError(String message) {
         System.out.println("\n[ERROR] " + message);
     }

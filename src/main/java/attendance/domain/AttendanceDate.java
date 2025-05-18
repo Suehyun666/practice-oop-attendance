@@ -1,6 +1,7 @@
 package attendance.domain;
 
 import java.time.LocalDate;
+import java.time.DayOfWeek;
 
 public class AttendanceDate {
     private final LocalDate value;
@@ -18,7 +19,7 @@ public class AttendanceDate {
     }
 
     public String getDayOfWeekName() {
-        java.time.DayOfWeek dayOfWeek = value.getDayOfWeek();
+        DayOfWeek dayOfWeek = value.getDayOfWeek();
         switch (dayOfWeek) {
             case MONDAY: return "월요일";
             case TUESDAY: return "화요일";
@@ -32,6 +33,6 @@ public class AttendanceDate {
     }
 
     public boolean isAttendanceDay() {
-        return DayOfWeek.isAttendanceDay(value);
+        return Week.isAttendanceDay(value);
     }
 }

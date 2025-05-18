@@ -37,6 +37,9 @@ public class AttendanceController {
             case "1":
                 processAttendanceCheck();
                 break;
+            case "2":
+                processAttendanceUpdate();
+                break;
             default:
                 throw new IllegalArgumentException("None Menu");
         }
@@ -51,6 +54,22 @@ public class AttendanceController {
 
         Attendance attendance = attendanceService.checkAttendance(nickname, time);
         resultView.printAttendanceResult(attendance);
+    }
+
+    private void processAttendanceUpdate() {
+        String nicknameInput = inputView.inputAttendanceNickname();
+        String dateInput = inputView.inputDate();
+        String timeInput = inputView.inputChangeTime();
+
+        Nickname nickname = new Nickname(nicknameInput);
+        AttendanceDate date = new AttendanceDate(Integer.parseInt(dateInput));
+        AttendanceTime time = new AttendanceTime(timeInput);
+
+        Attendance newAttendance = attendanceService.updateAttendance(nickname, date, time);
+
+        Attendance oldAttendance = new Attendance(nickname, date, new AttendanceTime("00:00"));
+
+        resultView.printUpdateResult(oldAttendance, newAttendance);
     }
 
 }

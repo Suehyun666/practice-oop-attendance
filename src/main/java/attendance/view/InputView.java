@@ -46,7 +46,7 @@ public class InputView {
     }
 
     private String formatToday() {
-        LocalDate today = LocalDate.of(2025,12,12);
+        LocalDate today = LocalDate.of(2024,12,13);
         String dayOfWeek = switch (today.getDayOfWeek()) {
             case MONDAY -> "월요일";
             case TUESDAY -> "화요일";

@@ -18,7 +18,7 @@ public class AttendanceService {
     }
 
     public Attendance checkAttendance(Nickname nickname, AttendanceTime time) {
-        LocalDate today = LocalDate.of(2025,12,12); //수정 예정
+        LocalDate today = LocalDate.of(2023,12,13); //수정 예정
         AttendanceDate date = new AttendanceDate(today);
 
         if (!date.isAttendanceDay()) {
@@ -56,4 +56,25 @@ public class AttendanceService {
         return new AttendanceRecord(nickname, attendances);
     }
 
+    public List<RiskCrew> getRiskCrews() {
+        List<RiskCrew> riskCrews = new ArrayList<>();
+        List<Nickname> nicknames = repository.findAllNicknames();
+
+        for (Nickname nickname : nicknames) {
+            AttendanceRecord record = getAttendanceRecord(nickname);
+            DisciplinaryStatus status = record.getDisciplinaryStatus();
+
+            if (status != DisciplinaryStatus.NORMAL) {
+                riskCrews.add(new RiskCrew(
+                        nickname,
+                        record.getAbsentCount(),
+                        record.getLateCount(),
+                        status
+                ));
+            }
+        }
+
+        Collections.sort(riskCrews);
+        return riskCrews;
+    }
 }
