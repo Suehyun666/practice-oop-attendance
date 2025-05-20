@@ -40,6 +40,12 @@ public class AttendanceController {
             case "2":
                 processAttendanceUpdate();
                 break;
+            case "3":
+                processAttendanceRecord();
+                break;
+            case "4":
+                processRiskCrews();
+                break;
             default:
                 throw new IllegalArgumentException("None Menu");
         }
@@ -65,11 +71,22 @@ public class AttendanceController {
         AttendanceDate date = new AttendanceDate(Integer.parseInt(dateInput));
         AttendanceTime time = new AttendanceTime(timeInput);
 
+        Attendance oldAttendance = attendanceService.getOldAttendance(nickname,date);
         Attendance newAttendance = attendanceService.updateAttendance(nickname, date, time);
-
-        Attendance oldAttendance = new Attendance(nickname, date, new AttendanceTime("00:00"));
-
+        
         resultView.printUpdateResult(oldAttendance, newAttendance);
     }
 
+    private void processAttendanceRecord() {
+        String nicknameInput = inputView.inputNickname();
+        Nickname nickname = new Nickname(nicknameInput);
+
+        AttendanceRecord record = attendanceService.getAttendanceRecord(nickname);
+        resultView.printAttendanceRecord(record);
+    }
+
+    private void processRiskCrews() {
+        List<RiskCrew> riskCrews = attendanceService.getRiskCrews();
+        resultView.printRiskCrews(riskCrews);
+    }
 }

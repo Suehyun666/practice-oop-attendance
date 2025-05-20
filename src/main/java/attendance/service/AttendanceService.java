@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.HashSet;
 
 public class AttendanceService {
     private final AttendanceRepository repository;
@@ -18,7 +20,7 @@ public class AttendanceService {
     }
 
     public Attendance checkAttendance(Nickname nickname, AttendanceTime time) {
-        LocalDate today = LocalDate.of(2023,12,13); //수정 예정
+        LocalDate today = LocalDate.of(2024,12,13);
         AttendanceDate date = new AttendanceDate(today);
 
         if (!date.isAttendanceDay()) {
@@ -46,9 +48,13 @@ public class AttendanceService {
                 .orElseThrow();
 
         repository.update(nickname, date, time);
-
+        //정리 필요
         Attendance newAttendance = new Attendance(nickname, date, time);
         return newAttendance;
+    }
+
+    public Attendance getOldAttendance(Nickname nickname, AttendanceDate date){
+        return this.repository.findByNicknameAndDate(nickname,date);
     }
 
     public AttendanceRecord getAttendanceRecord(Nickname nickname) {
@@ -58,9 +64,21 @@ public class AttendanceService {
 
     public List<RiskCrew> getRiskCrews() {
         List<RiskCrew> riskCrews = new ArrayList<>();
+        // 중복 방지를 위한 Set 사용
+        Set<String> processedNicknames = new HashSet<>();
+
         List<Nickname> nicknames = repository.findAllNicknames();
 
         for (Nickname nickname : nicknames) {
+            String nicknameValue = nickname.getValue();
+
+            // 이미 처리한 닉네임은 건너뛰기
+            if (processedNicknames.contains(nicknameValue)) {
+                continue;
+            }
+
+            processedNicknames.add(nicknameValue);
+
             AttendanceRecord record = getAttendanceRecord(nickname);
             DisciplinaryStatus status = record.getDisciplinaryStatus();
 

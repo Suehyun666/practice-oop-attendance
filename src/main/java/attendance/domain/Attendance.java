@@ -2,6 +2,7 @@ package attendance.domain;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.DayOfWeek;
 
 public class Attendance {
     private final Nickname nickname;
@@ -24,6 +25,24 @@ public class Attendance {
 
     public AttendanceTime getTime() {
         return time;
+    }
+
+    public AttendanceStatus getStatus() {
+        Week dayOfWeek = Week.from(date.getValue());
+        LocalTime startTime = dayOfWeek.getStartTime();
+        LocalTime attendanceTime = time.getValue();
+
+        if (attendanceTime.isBefore(startTime) ||
+                attendanceTime.equals(startTime) ||
+                attendanceTime.isBefore(startTime.plusMinutes(6))) {
+            return AttendanceStatus.PRESENT;
+        }
+
+        if (attendanceTime.isBefore(startTime.plusMinutes(31))) {
+            return AttendanceStatus.LATE;
+        }
+
+        return AttendanceStatus.ABSENT;
     }
 
     @Override
