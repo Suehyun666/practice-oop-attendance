@@ -11,7 +11,7 @@ public class AttendanceDate {
     }
 
     public AttendanceDate(int day) {
-        this.value = LocalDate.of(2024, 12, day);
+        this.value = LocalDate.of(Constants.YEAR, Constants.MONTH, day);
     }
 
     public LocalDate getValue() {
