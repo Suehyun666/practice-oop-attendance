@@ -68,24 +68,34 @@ public class AttendanceService {
         List<Nickname> nicknames = repository.findAllNicknames();
 
         for (Nickname nickname : nicknames) {
-            try {
-                AttendanceRecord record = getAttendanceRecord(nickname);
-                DisciplinaryStatus status = record.getDisciplinaryStatus();
-
-                if (status != DisciplinaryStatus.NORMAL) {
-                    riskCrews.add(new RiskCrew(
-                            nickname,
-                            record.getAbsentCount(),
-                            record.getLateCount(),
-                            status
-                    ));
-                }
-            } catch (Exception e) {
-                System.out.println("Debug: " + nickname.getValue() + " 처리 중 오류: " + e.getMessage());
-            }
+            addRiskCrewIfNeeded(nickname, riskCrews);
         }
 
         Collections.sort(riskCrews);
         return riskCrews;
+    }
+
+    private void addRiskCrewIfNeeded(Nickname nickname, List<RiskCrew> riskCrews) {
+        try {
+            AttendanceRecord record = getAttendanceRecord(nickname);
+            if (isRiskCrew(record)) {
+                riskCrews.add(createRiskCrew(nickname, record));
+            }
+        } catch (Exception e) {
+            System.out.println("Debug: " + nickname.getValue() + " 처리 중 오류: " + e.getMessage());
+        }
+    }
+
+    private boolean isRiskCrew(AttendanceRecord record) {
+        return record.getDisciplinaryStatus() != DisciplinaryStatus.NORMAL;
+    }
+
+    private RiskCrew createRiskCrew(Nickname nickname, AttendanceRecord record) {
+        return new RiskCrew(
+                nickname,
+                record.getAbsentCount(),
+                record.getLateCount(),
+                record.getDisciplinaryStatus()
+        );
     }
 }
