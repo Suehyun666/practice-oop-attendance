@@ -1,8 +1,8 @@
 package attendance.view;
 
-import attendance.AttendanceRecord;
-import attendance.domain.*;
-
+import attendance.domain.analysis.AttendanceRecord;
+import attendance.domain.model.*;
+import attendance.domain.analysis.*;
 import java.util.List;
 
 public class ResultView {

@@ -1,19 +1,16 @@
-package attendance;
-
-import attendance.domain.*;
+package attendance.repository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Collections;
 import java.util.Comparator;
+import attendance.domain.model.*;
 
 public class AttendanceRepository {
     private final List<Attendance> attendances;
@@ -74,7 +71,7 @@ public class AttendanceRepository {
 
     public void save(Attendance attendance) {
         attendances.add(attendance);
-        // 실제 파일에 저장하는 로직은 생략
+        // 실제 파일에 저장하는 로직은 없음
     }
 
     public void update(Nickname nickname, AttendanceDate date, AttendanceTime time) {
@@ -83,7 +80,7 @@ public class AttendanceRepository {
                 a.getDate().getValue().equals(date.getValue()));
 
         attendances.add(new Attendance(nickname, date, time));
-        // 실제 파일에 저장하는 로직은 생략
+        // 실제 파일에 저장하는 로직은 없음
         Collections.sort(attendances, Comparator.comparing(a -> a.getDate().getValue()));
     }
 

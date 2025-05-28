@@ -1,4 +1,4 @@
-package attendance.domain;
+package attendance.domain.model;
 
 public class Nickname {
     private final String value;

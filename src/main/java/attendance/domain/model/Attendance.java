@@ -1,8 +1,7 @@
-package attendance.domain;
+package attendance.domain.model;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.DayOfWeek;
+import attendance.domain.enums.*;
 
 public class Attendance {
     private final Nickname nickname;
@@ -47,7 +46,8 @@ public class Attendance {
 
     @Override
     public String toString() {
-        return String.format("12월 %02d일 %s %s (%s)",
+        return String.format("%d월 %02d일 %s %s (%s)",
+                date.getValue().getMonthValue(),
                 date.getValue().getDayOfMonth(),
                 date.getDayOfWeekName(),
                 time.format(),

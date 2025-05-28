@@ -1,10 +1,11 @@
 package attendance;
 
+import attendance.controller.AttendanceController;
+import attendance.repository.AttendanceRepository;
 import attendance.service.AttendanceService;
 import attendance.view.InputView;
 import attendance.view.ResultView;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 public class Application {

@@ -1,4 +1,4 @@
-package attendance.domain;
+package attendance.domain.enums;
 
 public enum DisciplinaryStatus {
     NORMAL("정상"),

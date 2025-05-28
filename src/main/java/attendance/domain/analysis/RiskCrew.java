@@ -1,4 +1,7 @@
-package attendance.domain;
+package attendance.domain.analysis;
+
+import attendance.domain.model.*;
+import attendance.domain.enums.DisciplinaryStatus;
 
 public class RiskCrew implements Comparable<RiskCrew> {
     private final Nickname nickname;
