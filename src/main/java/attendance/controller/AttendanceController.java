@@ -1,9 +1,13 @@
-package attendance;
+package attendance.controller;
 
-import attendance.domain.*;
+import attendance.domain.analysis.AttendanceRecord;
+import attendance.domain.analysis.RiskCrew;
+import attendance.domain.model.Attendance;
+import attendance.domain.model.AttendanceDate;
+import attendance.domain.model.AttendanceTime;
+import attendance.domain.model.Nickname;
 import attendance.service.AttendanceService;
-import attendance.view.InputView;
-import attendance.view.ResultView;
+import attendance.view.*;
 
 import java.util.List;
 
@@ -52,8 +56,11 @@ public class AttendanceController {
     }
 
     private void processAttendanceCheck() {
+        attendanceService.checkDay();
+
         String nicknameInput = inputView.inputNickname();
         Nickname nickname = new Nickname(nicknameInput);
+        attendanceService.checkNickname(nickname);
 
         String timeInput = inputView.inputTime();
         AttendanceTime time = new AttendanceTime(timeInput);
