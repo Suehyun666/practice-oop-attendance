@@ -1,7 +1,10 @@
 package attendance.view;
 
+import attendance.service.AttendanceService;
+import attendance.Constants;
 import java.time.LocalDate;
 import java.util.Scanner;
+import attendance.domain.enums.Week;
 
 public class InputView {
     private final Scanner scanner;
@@ -46,16 +49,8 @@ public class InputView {
     }
 
     private String formatToday() {
-        LocalDate today = LocalDate.of(2024,12,13);
-        String dayOfWeek = switch (today.getDayOfWeek()) {
-            case MONDAY -> "월요일";
-            case TUESDAY -> "화요일";
-            case WEDNESDAY -> "수요일";
-            case THURSDAY -> "목요일";
-            case FRIDAY -> "금요일";
-            case SATURDAY -> "토요일";
-            case SUNDAY -> "일요일";
-        };
-        return String.format("12월 %d일 %s", today.getDayOfMonth(), dayOfWeek);
+        LocalDate today = Constants.getToday();
+        String dayOfWeek = Week.getKoreanName(today.getDayOfWeek());
+        return String.format("%d월 %d일 %s", today.getMonthValue(), today.getDayOfMonth(), dayOfWeek);
     }
 }
